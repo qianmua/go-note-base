@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 /**
  * @author
  * @date 2020/7/31 13:03
@@ -74,8 +76,56 @@ func IterStack(stk Stack , vis func(T)){
 	}
 }
 
+//---------------------------------------
 
+/*
+指针
+表现出 指针特点 ， 又表现出 非指针特点
+解 指针 指向 自己
+*/
+type Pointer *Pointer
 
+func m2(){
+	var p *Pointer
+	// 强制转换
+	// 强类型
+	p = (*Pointer) (&p)
+	fmt.Println(p)
+}
+//---------------------------------------
+/*
+slice
+切片
+好括号列？
+*/
+type Balance []Balance
+
+func m3(){
+	arr := Balance{{} , {{},{},{}} ,{}}
+	fmt.Println(arr)
+}
+
+//---------------------------------------
+/*
+Y 组合子
+// 实现 无显示递归
+将自己 作为自己的 一个 参数
+*/
+type DFunc func(DFunc , int)int
+
+func fact(impl DFunc , n int)int{
+	if n == 0 {
+		return 1
+	}
+	return n * impl(impl , n - 1)
+}
+
+//---------------------------------------
+/*
+church 数
+//
+套娃 数
+*/
 
 
 
