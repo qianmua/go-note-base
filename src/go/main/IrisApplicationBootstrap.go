@@ -26,7 +26,7 @@ func main() {
 	// 配置
 	mvc.Configure(app.Party("/root"),myMvc)
 
-	html := iris.HTML("./", ".html")
+	html := iris.HTML("./template", ".html")
 	app.RegisterView(html)
 	// 错误码
 	app.OnErrorCode(iris.StatusNotFound , notFound)
@@ -102,7 +102,10 @@ func hello3(ctx iris.Context) {
 
 func notFound(ctx iris.Context) {
 	if true {
-		ctx.View("hello.html")
+		err := ctx.View("hello.html")
+		if err != nil {
+			fmt.Println("err -> " + err.Error())
+		}
 	}
 }
  
