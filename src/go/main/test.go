@@ -1,7 +1,7 @@
 package main
 
 import "fmt"
-
+import "github.com/kataras/iris"
 /**
  * @author
  * @date 2020/7/19 23:21
@@ -17,6 +17,14 @@ func stringTest() {
 }
 
 func main() {
+	fmt.Println("aaa")
+	app := iris.New()
+
+	app.Get("/" , func(ctx iris.Context){
+		ctx.WriteString("hello iris")
+	})
+
+	app.Run(iris.Addr(":9090"))
 
 }
  
