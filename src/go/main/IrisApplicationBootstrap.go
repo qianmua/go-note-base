@@ -63,7 +63,7 @@ type Token struct {
 	router
 
  */
-// 再添加路由
+// 路由
 func (m *MyController) BeforeActivation(b mvc.BeforeActivation) {
 	// method,path,funcName,middleware
 	b.Handle("GET", "/something/{id:long}", "MyCustomHandler",hello)
@@ -96,6 +96,7 @@ func (m *MyController) SayHelloText(text string) string {
 		return "null"
 	}
 	return string(bytes)
+
 }
 //	data := openMysql()
 /*
