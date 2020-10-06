@@ -158,6 +158,8 @@ func myHandler( ctx iris.Context){
 
 /**
 	api
+	@return map<int , map<string , string> >
+
  */
 
 func openMysql() map[int]map[string]string{
