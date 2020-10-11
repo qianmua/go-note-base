@@ -1,6 +1,11 @@
 package test
 
-import "testing"
+import (
+	"fmt"
+	"index/suffixarray"
+	"sort"
+	"testing"
+)
 
 /**
  * @author
@@ -23,5 +28,12 @@ import "testing"
 
 // DEMO1:
 func TestIM1(t *testing.T) {
-	
+	source := []byte("hello world , hello Go!")
+	index := suffixarray.New(source)
+
+	offsets := index.Lookup([]byte("hello qianmua" ), -1)
+
+	sort.Ints(offsets)
+
+	fmt.Printf("%v" , offsets)
 }
