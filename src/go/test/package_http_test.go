@@ -78,7 +78,7 @@ func TestHttpM2(t *testing.T) {
 // Server
 // 创建http服务器 对外提供访问
 
-// ListenandServe
+// ListenAndServe
 
 // DEMO3:
 func TestHttpM3(t *testing.T) {
