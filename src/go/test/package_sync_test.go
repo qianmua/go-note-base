@@ -104,7 +104,37 @@ func add2(data *int , mu *sync.Mutex){
 
 // DEMO3:
 func TestSyncM2(t *testing.T) {
+	wg := sync.WaitGroup{}
+	wg.Add(3)
 
+	for i := 0; i < 3 ; i++ {
+		go handle(&wg)
+	}
+	// wait 完成
+	// 完成后结束
+	wg.Wait()
+}
+func handle(wg *sync.WaitGroup){
+	defer wg.Done()
+
+	fmt.Println("test demo data")
 }
 
- 
+
+/// Once
+// 保证函数 有且只有一次执行
+// api
+// Do
+
+// DEMO4:
+func TestSyncM3(t *testing.T) {
+	var f = func(){
+		fmt.Println("hello world")
+	}
+	once := sync.Once{}
+	for i := 0 ; i < 10 ; i++ {
+		// 输出一次
+		once.Do(f)
+	}
+}
+
