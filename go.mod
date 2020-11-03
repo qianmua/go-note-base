@@ -29,4 +29,5 @@ require (
 	github.com/valyala/fasthttp v1.16.0 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a // indirect
+	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
 )
