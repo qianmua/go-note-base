@@ -4,8 +4,10 @@ go 1.13
 
 require (
 	github.com/Joker/jade v1.0.0 // indirect
+	github.com/astaxie/beego v1.12.2
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/flosch/pongo2 v0.0.0-20200805083417-63c99409991d // indirect
+	github.com/garyburd/redigo v1.6.2
 	github.com/gavv/monotime v0.0.0-20190418164738-30dba4353424 // indirect
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/gorilla/schema v1.2.0 // indirect
