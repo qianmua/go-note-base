@@ -123,3 +123,12 @@ func init() {
 func TestM1GOGOGO(t *testing.T) {
 	fmt.Println("hello")
 }
+
+// 使用
+var globalSessions *session.Manager
+
+//然后在init函数中初始化
+func init() {
+	globalSessions, _ = session.NewManager("memory", "gosessionid", 3600)
+	go globalSessions.GC()
+}
