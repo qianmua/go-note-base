@@ -4,7 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
-	"github.com/astaxie/beego/session"
+	"html/template"
 	"net/http"
 	"net/url"
 	"sync"
@@ -105,12 +105,39 @@ func NewManager(provideName, cookieName string, maxLifeTime int64) (*Manager, er
 	return &Manager{provider: provider, cookieName: cookieName, maxLifeTime: maxLifeTime}, nil
 }
 
+// 销毁
+//Destroy sessionid
+func (manager *Manager) SessionDestroy(w http.ResponseWriter, r *http.Request){
+	cookie, err := r.Cookie(manager.cookieName)
+	if err != nil || cookie.Value == "" {
+		return
+	} else {
+		manager.lock.Lock()
+		defer manager.lock.Unlock()
+		manager.provider.SessionDestroy(cookie.Value)
+		expiration := time.Now()
+		cookie := http.Cookie{Name: manager.cookieName, Path: "/", HttpOnly: true, Expires: expiration, MaxAge: -1}
+		http.SetCookie(w, &cookie)
+	}
+}
+
 
 // global management
 var globalSessions *Manager
 //然后在init函数中初始化
 func init() {
 	globalSessions, _ = NewManager("memory", "gosessionid", 3600)
+}
+// 管理销毁
+func init() {
+	go globalSessions.GC()
+}
+
+func (manager *Manager) GC() {
+	manager.lock.Lock()
+	defer manager.lock.Unlock()
+	manager.provider.SessionGC(manager.maxLifeTime)
+	time.AfterFunc(time.Duration(manager.maxLifeTime), func() { manager.GC() })
 }
 
 // test login
@@ -119,5 +146,36 @@ func TestLogin(t *testing.T) {
 }
 
 func login2(w http.ResponseWriter , r *http.Request){
-	SessionStart
+	sess := globalSessions.SessionStart(w, r)
+	r.ParseForm()
+
+	if r.Method == "GET" {
+		f, _ := template.ParseFiles("login.gtpl")
+		w.Header().Set("Content-Type", "text/html")
+		f.Execute(w , sess.Get("username"))
+	}else {
+		sess.Set("username" , r.Form["username"])
+		http.Redirect(w ,r , "/" , 302)
+	}
+}
+
+//设置、读取和删除
+func count(w http.ResponseWriter , r *http.Request){
+	sess := globalSessions.SessionStart(w, r)
+	createtime := sess.Get("createtime")
+	if createtime == nil {
+		sess.Set("createtime", time.Now().Unix())
+	} else if (createtime.(int64) + 360) < (time.Now().Unix()) {
+		globalSessions.SessionDestroy(w, r)
+		sess = globalSessions.SessionStart(w, r)
+	}
+	ct := sess.Get("countnum")
+	if ct == nil {
+		sess.Set("countnum", 1)
+	} else {
+		sess.Set("countnum", (ct.(int) + 1))
+	}
+	t, _ := template.ParseFiles("count.gtpl")
+	w.Header().Set("Content-Type", "text/html")
+	t.Execute(w, sess.Get("countnum"))
 }

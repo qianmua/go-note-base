@@ -5,6 +5,7 @@ go 1.13
 require (
 	github.com/Joker/jade v1.0.0 // indirect
 	github.com/astaxie/beego v1.12.2
+	github.com/astaxie/session v0.0.0-20130408050157-95d7fe18579c
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/flosch/pongo2 v0.0.0-20200805083417-63c99409991d // indirect
 	github.com/garyburd/redigo v1.6.2
