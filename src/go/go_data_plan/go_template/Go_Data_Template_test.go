@@ -16,6 +16,7 @@ import (
  */ 
  
 // template
+// MVC模式中V的处理
 
 // Go语言的模板通过{{}}来包含需要在渲染时被替换的字段，{{.}}表示当前的对象
 // {{.FieldName}} 段必须是导出的(字段首字母必须是大写的)
@@ -143,3 +144,20 @@ func EmailDealWith(args ...interface{}) string {
 
 
 // 嵌套模板
+
+// 比如thymeleaf 模板
+// header body footer
+
+// {{define "子模板名称"}}内容{{end}}
+// {{template "子模板名称"}}
+
+func TestTemplateM5(t *testing.T) {
+	s1, _ := template.ParseFiles("header.tmpl", "content.tmpl", "footer.tmpl")
+	s1.ExecuteTemplate(os.Stdout, "header", nil)
+	fmt.Println()
+	s1.ExecuteTemplate(os.Stdout, "content", nil)
+	fmt.Println()
+	s1.ExecuteTemplate(os.Stdout, "footer", nil)
+	fmt.Println()
+	s1.Execute(os.Stdout, nil)
+}
