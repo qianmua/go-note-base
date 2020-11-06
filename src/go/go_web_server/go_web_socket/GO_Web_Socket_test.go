@@ -5,6 +5,8 @@ import (
 	"log"
 	"net"
 	"os"
+	"strconv"
+	"strings"
 	"testing"
 	"time"
 )
@@ -79,6 +81,37 @@ func handleClient(conn net.Conn){
 	s := time.Now().String()
 	conn.Write([]byte(s))
 }
+func handleClientOfLongLink(conn net.Conn){
+	// timeout link out
+	conn.SetReadDeadline(time.Now().Add(2 * time.Minute))
+
+	// 指定一个最大长度以防止flood attack
+	request := make([]byte, 128)
+	// exit
+	defer conn.Close()
+	for {
+		read_len, err := conn.Read(request)
+
+		if err != nil {
+			fmt.Println(err)
+			break
+		}
+
+		if read_len == 0 {
+			// connection already closed by client
+			break
+		} else if strings.TrimSpace(string(request[:read_len])) == "timestamp" {
+			daytime := strconv.FormatInt(time.Now().Unix(), 10)
+			conn.Write([]byte(daytime))
+		} else {
+			daytime := time.Now().String()
+			conn.Write([]byte(daytime))
+		}
+		// cls req
+		request = make([]byte, 128)
+	}
+
+}
 
 func TestServerM2(t *testing.T) {
 	service := ":7777"
@@ -94,4 +127,6 @@ func TestServerM2(t *testing.T) {
 		go handleClient(conn)
 	}
 }
+
+/// UDP Socket
 
