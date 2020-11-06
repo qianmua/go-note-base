@@ -17,7 +17,7 @@ require (
 	github.com/iris-contrib/httpexpect v1.1.2 // indirect
 	github.com/iris-contrib/middleware/jwt v0.0.0-20200810001613-32cf668f999f
 	github.com/json-iterator/go v1.1.10
-	github.com/julienschmidt/httprouter v1.3.0 // indirect
+	github.com/julienschmidt/httprouter v1.3.0
 	github.com/k0kubun/colorstring v0.0.0-20150214042306-9440f1994b88 // indirect
 	github.com/kataras/golog v0.1.5 // indirect
 	github.com/kataras/iris v11.1.1+incompatible

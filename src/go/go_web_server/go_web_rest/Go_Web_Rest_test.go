@@ -35,6 +35,7 @@ import (
 
 func Index(w http.ResponseWriter , r *http.Request , _ httprouter.Params){
 	fmt.Fprint(w, "Welcome!\n")
+	fmt.Fprint(w , "<h1>hello world!</h1>\n")
 }
 func Hello(w http.ResponseWriter , r *http.Request , ps httprouter.Params){
 	fmt.Fprintf(w, "hello, %s!\n", ps.ByName("name"))
@@ -58,13 +59,17 @@ func modifyuser(w http.ResponseWriter , r *http.Request , ps httprouter.Params){
 }
 
 func TestRestMain(t *testing.T) {
+	// base router
 	router := httprouter.New()
+
 	router.GET("/", Index)
 	router.GET("/hello/:name", Hello)
-
 	router.GET("/user/:uid", getuser)
+
 	router.POST("/adduser/:uid", adduser)
+
 	router.DELETE("/deluser/:uid", deleteuser)
+
 	router.PUT("/moduser/:uid", modifyuser)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
