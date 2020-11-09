@@ -30,7 +30,7 @@ require (
 	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/valyala/fasthttp v1.16.0 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
-	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a // indirect
+	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a
 	golang.org/x/net v0.0.0-20200707034311-ab3426394381
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
 )
