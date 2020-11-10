@@ -42,4 +42,7 @@ func TestM22(t *testing.T) {
 	log.WithFields(log.Fields{
 		"animal": "walrus",
 	}).Info("A walrus appears")
+
+
+	ddd
 }
