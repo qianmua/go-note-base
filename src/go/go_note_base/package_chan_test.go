@@ -44,5 +44,4 @@ func TestM22(t *testing.T) {
 	}).Info("A walrus appears")
 
 
-	ddd
 }

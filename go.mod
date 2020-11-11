@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/Joker/jade v1.0.0 // indirect
+	github.com/astaxie/beedb v0.0.0-20141221130223-1732292dfde4
 	github.com/astaxie/beego v1.12.2
 	github.com/astaxie/session v0.0.0-20130408050157-95d7fe18579c
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
@@ -31,6 +32,7 @@ require (
 	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/valyala/fasthttp v1.16.0 // indirect
 	github.com/yudai/pp v2.0.1+incompatible // indirect
+	github.com/ziutek/mymysql v1.5.4
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a
 	golang.org/x/net v0.0.0-20200707034311-ab3426394381
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
