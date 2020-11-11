@@ -102,13 +102,14 @@ func TestIrisM4(t *testing.T) {
 		})
 	})
 
-	//app.Run(iris.Listener(l))
+	app.Run(iris.Listener(l))
+
 	// 后置处理
-	app.Run(iris.Addr(":8080", func(h *iris.Supervisor) {
-		h.RegisterOnShutdown(func() {
-			println("server terminated")
-		})
-	}))
+	//app.Run(iris.Addr(":8080", func(h *iris.Supervisor) {
+	//	h.RegisterOnShutdown(func() {
+	//		println("server terminated")
+	//	})
+	//}))
 
 }
 
