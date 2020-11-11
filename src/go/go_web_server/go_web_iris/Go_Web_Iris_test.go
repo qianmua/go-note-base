@@ -6,6 +6,7 @@ import (
 	"github.com/kataras/iris/middleware/recover"
 	"github.com/kataras/iris/mvc"
 	"log"
+	"net"
 	"testing"
 )
 
@@ -81,4 +82,53 @@ func (c *ExampleController) GetPing() string{
 
 func (c *ExampleController) GetHello() interface{}{
 	return map[string]string{"Message" : "hello Iris."}
+}
+
+
+/// Demo4 listener
+func TestIrisM4(t *testing.T) {
+	app := iris.New()
+
+	// 自定义监听
+	l, err := net.Listen("tcp4", ":8080")
+	if err != nil {
+		panic(err)
+	}
+
+	// 前置处理
+	app.ConfigureHost(func(h *iris.Supervisor) {
+		h.RegisterOnShutdown(func() {
+			println("server terminated")
+		})
+	})
+
+	//app.Run(iris.Listener(l))
+	// 后置处理
+	app.Run(iris.Addr(":8080", func(h *iris.Supervisor) {
+		h.RegisterOnShutdown(func() {
+			println("server terminated")
+		})
+	}))
+
+}
+
+
+// Demo5 路由
+
+func TestIrisM5(t *testing.T) {
+
+	// 分组
+	app := iris.New()
+
+	users := app.Party("/users", myAuthMiddlewareHandler)
+
+	// http://localhost:8080/users/42/profile
+	users.Get("/{id:int}/profile", myAuthMiddlewareHandler)
+	// http://localhost:8080/users/messages/1
+	users.Get("/messages/{id:int}", myAuthMiddlewareHandler)
+
+}
+
+func myAuthMiddlewareHandler(ctx iris.Context){
+	ctx.Writef("Hello from method: %s and path: %s", ctx.Method(), ctx.Path())
 }
