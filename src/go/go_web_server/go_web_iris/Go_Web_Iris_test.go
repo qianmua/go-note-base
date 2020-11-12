@@ -133,3 +133,15 @@ func TestIrisM5(t *testing.T) {
 func myAuthMiddlewareHandler(ctx iris.Context){
 	ctx.Writef("Hello from method: %s and path: %s", ctx.Method(), ctx.Path())
 }
+
+// Demo6 dynamic
+func TestIrisM6(t *testing.T) {
+	app := iris.New()
+
+	//
+	app.Get("/username/{name}" , func(ctx iris.Context){
+		ctx.Writef("hello  %s" , ctx.Params().Get("name"))
+	})
+
+
+}
