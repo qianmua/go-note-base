@@ -295,3 +295,30 @@ func indexhandler(ctx iris.Context){
 	ctx.HTML("hhhhhhh")
 	ctx.Next()
 }
+
+
+/// error status
+
+func TestIrisM10(t *testing.T) {
+	app := iris.New()
+
+	app.OnErrorCode(iris.StatusNotFound , notFound)
+	app.OnErrorCode(iris.StatusInternalServerError , internalServerError)
+
+	app.Get("/" , index)
+	app.Run(iris.Addr(":9090"))
+
+}
+
+func notFound(ctx iris.Context){
+	ctx.View("/template/404.html")
+}
+
+func internalServerError(ctx iris.Context){
+	ctx.WriteString( "errrrrrrrrrrrrrrrrrrrrrrrrr")
+
+}
+
+func index(ctx iris.Context){
+	ctx.View("/template/index.html")
+}
