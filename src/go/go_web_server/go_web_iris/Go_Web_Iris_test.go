@@ -197,14 +197,101 @@ func TestIrisM6(t *testing.T) {
 
 
 	// http://localhost:8080/single_file/app.js
-	app.Get("/single_file/{my_file:file}" , func(ctx iris.Context) {
-		ctx.Writef("file type file: %s" , ctx.Params().Get("my_file"))
-	})
+	/*app.Get("/singleFile/{myfile:file}" , func(ctx iris.Context) {
+		ctx.Writef("file type file: %s" , ctx.Params().Get("myfile"))
+	})*/
 
 	// http://localhost:8080/myfiles/any/directory/here/
 	// 这是唯一一个接受任何数量路径片段的宏类型。
+	app.Get("/myfile/{d:path}" , func(ctx iris.Context){
+		ctx.Writef("file path dict : %s | \n" , ctx.Params().Get("d"))
+	})
+
+	app.Run(iris.Addr(":8080"))
 
 
+}
+
+// router
+func TestIrisM7(t *testing.T) {
+	app := iris.New()
+
+	h := func(ctx iris.Context){
+		ctx.HTML("<b>qian mu a</b>")
+	}
+
+	home := app.Get("/", h)
+	home.Name = "home"
+
+	//
+	//home := app.Get("/page/{id}", h).Name = "name"
+
+	app.Run(iris.Addr(":9090"))
 
 
+}
+
+
+// 中间件
+/**
+中间件仅仅是 func(ctx iris.Context) 的处理器形式，中间件在前一个调用 ctx.Next() 时执行，这个可以用于
+去认证，例如，如果登录了，调用  ctx.Next() 否则将触发一个错误响应。
+ */
+func TestIrisM8(t *testing.T) {
+	app := iris.New()
+
+	app.Get("/" , before , mainhandler , after)
+
+	app.Run(iris.Addr(":8080"))
+
+
+}
+func before(ctx iris.Context){
+	shareInformation := "this is a sharable information between handlers"
+	requestPath := ctx.Path()
+	println("Before the mainHandler: " + requestPath)
+	ctx.Values().Set("info", shareInformation)
+	ctx.Next() // 执行下一个处理器。
+}
+func after(ctx iris.Context){
+
+	println("After the mainHandler")
+
+}
+
+func mainhandler(ctx iris.Context){
+
+	println("Inside mainHandler")
+
+	// // 获取 "before" 处理器中的设置的 "info" 值。
+	info := ctx.Values().GetString("info")
+
+
+	// res
+	ctx.HTML("<h1>response</h1>")
+	ctx.HTML("<br /> info" + info)
+
+	ctx.Next()
+
+}
+
+
+// 全局设定
+func TestIrisM9(t *testing.T) {
+	app := iris.New()
+
+
+	// 注册 "before"  处理器作为当前域名所有路由中第一个处理函数
+	app.Use(before)
+	// 注册  "after" ，在所有路由的处理程序之后调用
+	app.Done(after)
+
+
+	// 注册路由
+	app.Get("/" , indexhandler)
+}
+
+func indexhandler(ctx iris.Context){
+	ctx.HTML("hhhhhhh")
+	ctx.Next()
 }
