@@ -1,6 +1,9 @@
 package test
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 /**
  * @author
@@ -43,6 +46,46 @@ func TestDongtaiGuiHuaA1(t *testing.T) {
 	"12e+4.3"
  */
 func TestIsNumber(t *testing.T) {
+
+}
+
+// 快排
+func TestQuickSort(t *testing.T) {
+	ints := make([]int, 4)
+	ints[0] =5
+	ints[1] =6
+	ints[2] =1
+	ints[3] =4
+	quick(ints , 0 , len(ints) -1)
+	fmt.Println(ints)
+}
+
+func quick(arr []int , s , e int) {
+	if s > e {
+		return
+	}
+
+	left , right := s , e
+	mid := arr[left]
+
+	for left < right {
+
+		for left < right && arr[right] >= mid {
+			right --
+		}
+
+		arr[left] = arr[right]
+
+		for left < right && arr[left] < mid {
+			left ++
+		}
+
+		arr[right] = arr[left]
+
+	}
+	arr[left] = mid
+	quick(arr , s , left -1)
+	quick(arr ,left + 1 , e)
 
 }
 
