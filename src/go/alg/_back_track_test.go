@@ -68,10 +68,16 @@ func backtrack2(nums []int, visited []bool, list []int, result *[][]int) {
 		if visited[i] {
 			continue
 		}
+
+		// 上一个元素和当前相同，并且没有访问过就跳过
+		if i != 0 && nums[i] == nums[i-1] && !visited[i-1] {
+			continue
+		}
+
 		// 添加元素
 		list = append(list, nums[i])
 		visited[i] = true
-		backtrack(nums, visited, list, result)
+		backtrack2(nums, visited, list, result)
 		// 移除元素
 		visited[i] = false
 		list = list[0 : len(list)-1]
