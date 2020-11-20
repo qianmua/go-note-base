@@ -45,7 +45,7 @@ func (stack *Stack)Pop() (interface {},error){
 	查看下一个元素
  */
 
-func (stack *Stack)Peek() interface {} {
+func (stack *Stack)Peek() (interface {}){
 	if stack.IsEmpty()==true{
 	}
 	//stack.top=stack.top+1
@@ -78,10 +78,36 @@ func isValid(s string) bool{
 
 		case ')':
 			if !brackets.IsEmpty() {
-
+				if brackets.Peek() == '(' {
+					brackets.Pop()
+				}else {
+					return false
+				}
+			}else {
+				return false
 			}
-			
-
+		case ']':
+			if !brackets.IsEmpty() {
+				if brackets.Peek() == '[' {
+					brackets.Pop()
+				}else {
+					return false
+				}
+			}else {
+				return false
+			}
+		case '}':
+			if !brackets.IsEmpty() {
+				if brackets.Peek() == '{' {
+					brackets.Pop()
+				}else {
+					return false
+				}
+			}else {
+				return false
+			}
 		}
 	}
+
+	return brackets.IsEmpty()
 }
