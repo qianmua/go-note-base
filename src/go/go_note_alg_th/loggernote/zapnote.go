@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"path/filepath"
+	//"path/filepath"
 	"syscall"
-	"time"
+	//"time"
 
-	"github.com/uber-go/zap"
+	//"github.com/uber-go/zap"
 )
 
 func handleSignal() {
@@ -22,7 +22,7 @@ func handleSignal() {
 	}
 
 }
-
+/*
 var loggerJson zap.Logger
 var loggerText zap.Logger
 
@@ -111,7 +111,7 @@ func main() {
 				return nil
 			}),
 		*/
-	)
+	/*)
 
 	loggerText = zap.New(
 		//zap.NewTextEncoder(...)
@@ -124,3 +124,4 @@ func main() {
 	go logText("b")
 	handleSignal()
 }
+*/
